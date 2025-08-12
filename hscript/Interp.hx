@@ -300,6 +300,9 @@ class Interp {
 		var e = e.e;
 		#end
 		switch( e ) {
+		case EIgnore(_):
+		case EDirectValue(v):
+			return v;
 		case EConst(c):
 			switch( c ) {
 			case CInt(v): return v;

@@ -124,6 +124,9 @@ class Bytes {
 		#end
 		bout.addByte(exprIndex(e));
 		switch( e ) {
+		case EIgnore(_): null;
+		case EDirectValue(value):
+			doEncode(value);
 		case EConst(c):
 			doEncodeConst(c);
 		case EIdent(v):
@@ -268,6 +271,8 @@ class Bytes {
 			case EMeta(_): 25;
 			case ECheckType(_): 26;
 			case EForGen(_): 27;
+			case EIgnore(_): 28;
+			case EDirectValue(_): 29;
 		}
 	}
 

@@ -804,6 +804,44 @@ class Parser {
 				}
 			}
 			mk(ESwitch(e, cases, def), p1, tokenMax);
+		case "typedef":
+			var name = getIdent();
+
+			ensureToken(TOp("="));
+
+			var t = parseType();
+			switch (t) {
+				case CTAnon(_) | CTFun(_):
+					mk(EIgnore(true));
+				case CTPath(tp, params):
+					var path = tp;
+					var params = params;
+					if (params != null && params.length > 1)
+						error(ECustom("Typedefs can't have parameters"), tokenMin, tokenMax);
+
+					if (path.length == 0)
+						error(ECustom("Typedefs can't be empty"), tokenMin, tokenMax);
+
+					{
+						var className = path.join(".");
+						var cl:Dynamic = Tools.getClass(className);
+						
+						if (cl != null) {
+							return mk(EVar(name, null, mk(EDirectValue(cl))));
+						}
+					}
+
+					var expr = mk(EIdent(path.shift()));
+					while (path.length > 0) {
+						expr = mk(EField(expr, path.shift()));
+					}
+
+					// todo? add import to the beginning of the file?
+					mk(EVar(name, null, expr));
+				default:
+					error(ECustom("Typedef, unknown type " + t), tokenMin, tokenMax);
+					null;
+			}
 		default:
 			null;
 		}
@@ -1285,11 +1323,11 @@ class Parser {
 			ensureToken(TOp("="));
 			var t = parseType();
 			return DTypedef({
-				name : name,
-				meta : meta,
-				params : params,
-				isPrivate : isPrivate,
-				t : t,
+				name: name,
+				meta: meta,
+				params: params,
+				isPrivate: isPrivate,
+				t: t,
 			});
 		case "enum":
 			var name = getIdent();

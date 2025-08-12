@@ -40,6 +40,8 @@ enum ExprDef {
 typedef ExprDef = Expr;
 enum Expr {
 #end
+	EIgnore(skipSemicolon:Bool);
+	EDirectValue(value:Dynamic);
 	EConst( c : Const );
 	EIdent( v : String );
 	EVar( n : String, ?t : CType, ?e : Expr );

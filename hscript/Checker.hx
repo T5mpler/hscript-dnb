@@ -967,6 +967,8 @@ class Checker {
 			default: TDynamic;
 			}
 		switch( edef(expr) ) {
+		case EIgnore(_):
+		case EDirectValue(_): TDynamic;
 		case EConst(c):
 			return switch (c) {
 			case CInt(_): TInt;

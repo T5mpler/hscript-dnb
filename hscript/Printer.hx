@@ -124,6 +124,9 @@ class Printer {
 			return;
 		}
 		switch( #if hscriptPos e.e #else e #end ) {
+		case EIgnore(_):
+		case EDirectValue(value):
+			add("<Internal Value " + value + ">");
 		case EConst(c): addConst(c);
 		case EIdent(v):
 			add(v);
