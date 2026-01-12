@@ -331,6 +331,7 @@ class Parser {
 			case TBrClose:
 				break;
 			case TComma:
+
 			default:
 				unexpected(tk);
 			}
@@ -1709,6 +1710,19 @@ class Parser {
 			default:
 				if( ops[char] ) {
 					var op = String.fromCharCode(char);
+					switch (op)
+					{
+						case '|':
+							var nextChar = readChar();
+
+							// Fix for if statements: If the next char's `|` then continue (it could be a ||)
+							// Else we know it's for a switch case.
+							if (nextChar == '|'.code)
+								readPos--;
+							else
+								return TBar;
+						default:
+					}
 					while( true ) {
 						char = readChar();
 						if( StringTools.isEof(char) ) char = 0;
