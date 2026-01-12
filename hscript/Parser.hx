@@ -1626,7 +1626,6 @@ class Parser {
 			case "(".code: return TPOpen;
 			case ")".code: return TPClose;
 			case ",".code: return TComma;
-			case "|".code: return TBar;
 			case ".".code:
 				char = readChar();
 				switch( char ) {
