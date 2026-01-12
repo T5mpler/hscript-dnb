@@ -34,6 +34,7 @@ enum Token {
 	TDot;
 	TQuestionDot;
 	TComma;
+	TBar;
 	TSemicolon;
 	TBkOpen;
 	TBkClose;
@@ -329,7 +330,7 @@ class Parser {
 			switch( tk ) {
 			case TBrClose:
 				break;
-			case TComma:
+			case TComma, TBar:
 			default:
 				unexpected(tk);
 			}
@@ -746,7 +747,7 @@ class Parser {
 						c.values.push(e);
 						tk = token();
 						switch( tk ) {
-						case TComma:
+						case TComma, TBar:
 							// next expr
 						case TDoubleDot:
 							break;
@@ -1625,6 +1626,7 @@ class Parser {
 			case "(".code: return TPOpen;
 			case ")".code: return TPClose;
 			case ",".code: return TComma;
+			case "|".code: return TBar;
 			case ".".code:
 				char = readChar();
 				switch( char ) {
@@ -1894,6 +1896,7 @@ class Parser {
 		case TDot: ".";
 		case TQuestionDot: "?.";
 		case TComma: ",";
+		case TBar: "|";
 		case TSemicolon: ";";
 		case TBkOpen: "[";
 		case TBkClose: "]";
