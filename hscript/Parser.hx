@@ -330,7 +330,7 @@ class Parser {
 			switch( tk ) {
 			case TBrClose:
 				break;
-			case TComma, TBar:
+			case TComma:
 			default:
 				unexpected(tk);
 			}
